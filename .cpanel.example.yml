@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/nameserver/public_html/
+    - /usr/bin/rsync -av --exclude='index.php' public/ $DEPLOYPATH/
+    - cp deploy/index.cpanel.php $DEPLOYPATH/index.php
