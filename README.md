@@ -32,6 +32,13 @@ extension=zip
 ```
 
 **Copiar el Archivo de deploy/index.cpanel:**
+Es necesario actualizar `.cpanel.yml`
+
+```bash
+DEPLOYPATH=/home/servidor/directorio/
+```
+
+**Copiar el Archivo de deploy/index.cpanel:**
 Cambiar el nombre de `project`
 
 ```bash
