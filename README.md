@@ -31,15 +31,8 @@ extension=gd
 extension=zip
 ```
 
-**Copiar el Archivo de cpanel:**
-ahi cambiar el nombre del servidor `nameserver`
-
-```bash
-cp .cpanel.example.yml .cpanel.yml
-```
-
 **Copiar el Archivo de deploy/index.cpanel:**
-ahi cambiar el nombre del servidor `nameserver`
+Cambiar el nombre de `project`
 
 ```bash
 cp ./deploy/index.cpanel.example.php ./deploy/index.cpanel.php
