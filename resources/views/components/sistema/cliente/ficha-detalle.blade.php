@@ -99,7 +99,8 @@
 </x-sistema.modal>
 <script>
     function editCliente() {
-        $('#ruc, #razon_social, #ciudad, #btn_guardar_cliente, #generado_bot').prop('disabled', false)
+        $(`#ruc, #razon_social, #ciudad, #btn_guardar_cliente, #generado_bot,
+            #departamento_codigo, #provincia_codigo, #distrito_codigo`).prop('disabled', false)
     }
 
     function saveCliente() {
@@ -120,7 +121,8 @@
                 generado_bot: $('#generado_bot').is(':checked'),
             },
             success: function(result) {
-                $('#ruc, #razon_social, #ciudad, #btn_guardar_cliente, #generado_bot').prop('disabled', true);
+                $(`#ruc, #razon_social, #ciudad, #btn_guardar_cliente, #generado_bot,
+                    #departamento_codigo, #provincia_codigo, #distrito_codigo`).prop('disabled', true);
             },
             error: function(response) {
                 mostrarError(response);

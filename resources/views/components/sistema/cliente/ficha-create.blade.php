@@ -61,6 +61,9 @@
                 ruc: $('#ruc').val(),
                 razon_social: $('#razon_social').val(),
                 ciudad: $('#ciudad').val(),
+                departamento_codigo: $('#departamento_codigo').val(),
+                provincia_codigo: $('#provincia_codigo').val(),
+                distrito_codigo: $('#distrito_codigo').val(),
                 // contacto
                 dni: $('#dni').val(),
                 nombre: $('#nombre').val(),

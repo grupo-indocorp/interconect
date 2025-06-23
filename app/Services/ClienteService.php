@@ -172,13 +172,13 @@ class ClienteService
         $capacitador = $user->hasRole('capacitador');
         $planificacion = $user->hasRole('planificacion');
 
-        if ($sistema || $gerente_general || $gerente_comercial || $asistente_comercial || $capacitador || $planificacion) {
+        // if ($sistema || $gerente_general || $gerente_comercial || $asistente_comercial || $capacitador || $planificacion) {
             $data_comentarios = $cliente->comentarios()->orderBy('comentarios.id', 'desc')->get();
-        } elseif ($supervisor || $jefe_comercial) {
-            $data_comentarios = $cliente->comentarios()->orderBy('comentarios.id', 'desc')->limit(5)->get();
-        } else {
-            $data_comentarios = $cliente->comentarios()->where('user_id', $user->id)->orderBy('comentarios.id', 'desc')->limit(5)->get();
-        }
+        // } elseif ($supervisor || $jefe_comercial) {
+        //     $data_comentarios = $cliente->comentarios()->orderBy('comentarios.id', 'desc')->limit(5)->get();
+        // } else {
+        //     $data_comentarios = $cliente->comentarios()->where('user_id', $user->id)->orderBy('comentarios.id', 'desc')->limit(5)->get();
+        // }
         $comentarios = [];
         foreach ($data_comentarios as $value) {
             $comentarios[] = [
@@ -289,6 +289,9 @@ class ClienteService
         $cliente->equipo_id = $user->equipos->last()->id ?? 1;
         $cliente->sede_id = $user->equipos->last()->sede->id ?? 1;
         $cliente->etapa_id = request('etapa_id');
+        $cliente->departamento_codigo = request('departamento_codigo');
+        $cliente->provincia_codigo = request('provincia_codigo');
+        $cliente->distrito_codigo = request('distrito_codigo');
         $cliente->save();
         $cliente->usersHistorial()->attach($user->id);
         $cliente->etapas()->attach(1);

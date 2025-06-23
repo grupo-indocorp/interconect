@@ -76,7 +76,13 @@
                             ${producto.nombre}
                         </td>
                         <td>
-                            <input class="form-control" type="text" value="" id="detalle${num}">
+                            <select class="form-control" id="detalle${num}">
+                                <option value="200 Mbps">200 Mbps</option>
+                                <option value="300 Mbps">300 Mbps</option>
+                                <option value="400 Mbps">400 Mbps</option>
+                                <option value="600 Mbps">600 Mbps</option>
+                                <option value="1000 Mbps">1000 Mbps</option>
+                            </select>
                         </td>
                         <td>
                             <input class="form-control" type="number" value="1" id="cantidad${num}" onkeyup="cargoFijoProducto(${num})">

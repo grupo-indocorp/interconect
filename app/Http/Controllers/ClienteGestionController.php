@@ -261,6 +261,7 @@ class ClienteGestionController extends Controller
                 'nombre' => $etapa->nombre,
                 'clientes_solo_count' => $query->count(),
                 'color' => $etapa->color,
+                'tooltip' => $etapa->tooltip ?? '',
             ];
         }
 

@@ -12,7 +12,7 @@
     </div>
     @if ($config['datosAdicionales']['estadoWick'])
         <div class="form-group">
-            <label for="estadowick_id" class="form-control-label">Estado Wick</label>
+            <label for="estadowick_id" class="form-control-label">Estado Winforce</label>
             <select class="form-control" id="estadowick_id" @php echo ($movistar != '' ? 'disabled' : '') @endphp>
                 @foreach ($estadowicks as $value)
                     <option value="{{ $value->id }}">{{ $value->nombre }}</option>
@@ -20,7 +20,7 @@
             </select>
         </div>
     @endif
-    @if ($config['datosAdicionales']['estadoDito'])
+    {{-- @if ($config['datosAdicionales']['estadoDito'])
         <div class="form-group">
             <label for="estadodito_id" class="form-control-label">Estado Dito</label>
             <select class="form-control" id="estadodito_id" @php echo ($movistar != '' ? 'disabled' : '') @endphp>
@@ -29,31 +29,31 @@
                 @endforeach
             </select>
         </div>
-    @endif
+    @endif --}}
     @if ($config['datosAdicionales']['lineaClaro'])
         <div class="form-group">
-            <label for="linea_claro" class="form-control-label">Lineas Claro</label>
+            <label for="linea_claro" class="form-control-label">Score</label>
             <input class="form-control" type="number" id="linea_claro" name="linea_claro" value="{{ $movistar->linea_claro ?? 0 }}" @php echo ($movistar != '' ? 'disabled' : '') @endphp>
         </div>
     @endif
     @if ($config['datosAdicionales']['lineaEntel'])
         <div class="form-group">
-            <label for="linea_entel" class="form-control-label">Lineas Entel</label>
+            <label for="linea_entel" class="form-control-label">Cant. Trabajadores</label>
             <input class="form-control" type="number" id="linea_entel" name="linea_entel" value="{{ $movistar->linea_entel ?? 0 }}" @php echo ($movistar != '' ? 'disabled' : '') @endphp>
         </div>
     @endif
     @if ($config['datosAdicionales']['lineaBitel'])
         <div class="form-group">
-            <label for="linea_bitel" class="form-control-label">Lineas Bitel</label>
+            <label for="linea_bitel" class="form-control-label">Cant. Sucursales</label>
             <input class="form-control" type="number" id="linea_bitel" name="linea_bitel" value="{{ $movistar->linea_bitel ?? 0 }}" @php echo ($movistar != '' ? 'disabled' : '') @endphp>
         </div>
     @endif
-    @if ($config['datosAdicionales']['lineaMovistar'])
+    {{-- @if ($config['datosAdicionales']['lineaMovistar'])
         <div class="form-group">
             <label for="linea_movistar" class="form-control-label">Lineas Movistar</label>
             <input class="form-control" type="number" id="linea_movistar" name="linea_movistar" value="{{ $movistar->linea_movistar ?? 0 }}" @php echo ($movistar != '' ? 'disabled' : '') @endphp>
         </div>
-    @endif
+    @endif --}}
     @if ($config['datosAdicionales']['tipoCliente'])
         <div class="form-group">
             <label for="clientetipo_id" class="form-control-label">Tipo Cliente</label>
@@ -66,11 +66,11 @@
     @endif
     @if ($config['datosAdicionales']['ejecutivoSalesforce'])
         <div class="form-group">
-            <label for="ejecutivo_salesforce" class="form-control-label">Ejecutivo Salesforce</label>
+            <label for="ejecutivo_salesforce" class="form-control-label">Dealer CRM</label>
             <input class="form-control" type="text" id="ejecutivo_salesforce" name="ejecutivo_salesforce" value="{{ $movistar->ejecutivo_salesforce ?? '' }}" @php echo ($movistar != '' ? 'disabled' : '') @endphp>
         </div>
     @endif
-    @if ($config['datosAdicionales']['agencia'])
+    {{-- @if ($config['datosAdicionales']['agencia'])
         <div class="form-group">
             <label for="agencia_id" class="form-control-label">Agencia</label>
             <select class="form-control" id="agencia_id" @php echo ($movistar != '' ? 'disabled' : '') @endphp>
@@ -79,7 +79,7 @@
                 @endforeach
             </select>
         </div>
-    @endif
+    @endif --}}
     {{ $botonFooter }}
 </x-sistema.card>
 <script>

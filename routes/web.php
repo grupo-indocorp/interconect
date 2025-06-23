@@ -21,7 +21,6 @@ use App\Http\Controllers\FileViewController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\FunnelController;
 use App\Http\Controllers\GestionClienteController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ListaUsuarioController;
 use App\Http\Controllers\NotificacionController;
@@ -30,6 +29,7 @@ use App\Http\Controllers\ReporteClienteController;
 use App\Http\Controllers\ReporteClienteNuevoController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UbigeoController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 
@@ -39,11 +39,13 @@ Route::get('/components', function () {
 });
 
 // Ruta de inicio
-Route::get('/', [HomeController::class, 'home']);
+Route::get('/', function () {
+    return redirect('/login');
+});
 
 // Redirigir registro a la página de inicio
 Route::get('/register', function () {
-    return redirect('/');
+    return redirect('/login');
 });
 
 // Rutas protegidas por autenticación
@@ -82,6 +84,9 @@ Route::middleware([
         'files' => FileController::class,
         'files-view' => FileViewController::class,
     ]);
+
+    Route::get('/api/provincias/{departamento}', [UbigeoController::class, 'provincias']);
+    Route::get('/api/distritos/{departamento}/{provincia}', [UbigeoController::class, 'distritos']);    
 
     // Ruta adicional para la descarga de archivos
     Route::get('/files/{id}/download', [FileController::class, 'download'])->name('files.download');

@@ -24,6 +24,10 @@
         <x-ui.input type="number" step="1" min="0" value="{{ $etapa->orden }}" id="orden" name="orden" />
     </div>
     <div class="form-group">
+        <label for="tooltip" class="form-control-label">Tooltip:</label>
+        <input class="form-control uppercase" type="text" value="{{ $etapa->tooltip }}" id="tooltip" name="tooltip">
+    </div>
+    <div class="form-group">
         <x-ui.label for="estado">{{ __('Estado *') }}</x-ui.label>
         <select class="form-control uppercase" name="estado" id="estado">
             <option value="1" @if ($etapa->estado == 1) selected @endif>Activo</option>
@@ -51,6 +55,7 @@
                 probabilidad: $('#probabilidad').val(),
                 orden: $('#orden').val(),
                 estado: $('#estado').val(),
+                tooltip: $('#tooltip').val(),
             },
             beforeSend: function() {
                 button.disabled = true;

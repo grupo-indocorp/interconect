@@ -8,8 +8,13 @@
                     onclick="selectFiltroEtapa()" />
 
                 @foreach ($data_etapas as $etapaId => $etapaData)
-                    <x-sistema.boton :type="$loop->last ? 'last' : 'middle'" :title="$etapaData['nombre']" :count="$etapaData['clientes_solo_count']" :color="$etapaData['color']"
-                        :active="request('filtro_etapa_id') == $etapaId" onclick="selectFiltroEtapa({{ $etapaId }})" />
+                    <x-sistema.boton :type="$loop->last ? 'last' : 'middle'"
+                        :title="$etapaData['nombre']"
+                        :count="$etapaData['clientes_solo_count']"
+                        :color="$etapaData['color']"
+                        :active="request('filtro_etapa_id') == $etapaId" onclick="selectFiltroEtapa({{ $etapaId }})"
+                        data-bs-toggle="tooltip"
+                        data-bs-original-title="{{ $etapaData['tooltip'] ?? '' }}" />
                 @endforeach
             </div>
         </div>

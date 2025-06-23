@@ -112,6 +112,7 @@ class ConfiguracionEtapaController extends Controller
             $etapa->probabilidad = request('probabilidad');
             $etapa->orden = request('orden');
             $etapa->estado = request('estado');
+            $etapa->tooltip = request('tooltip');
             $etapa->save();
 
             // Establecer el mensaje de éxito en la sesión
