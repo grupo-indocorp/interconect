@@ -29,10 +29,20 @@
         <label for="ciudad" class="form-control-label">Dirección Fiscal *</label>
         <input class="form-control" type="text" id="ciudad" name="ciudad" value="{{ $cliente->ciudad ?? '' }}" @php echo ($cliente != '' ? 'disabled' : ''); @endphp>
     </div>
-    <div x-data="ubigeoSelects()" x-init="init()">
+    <div x-data="ubigeoSelects(
+            '{{ $cliente->departamento_codigo ?? '' }}',
+            '{{ $cliente->provincia_codigo ?? '' }}',
+            '{{ $cliente->distrito_codigo ?? '' }}',
+            {{ $cliente ? 'true' : 'false' }}
+        )"
+        x-init="init()">
         <div class="form-group">
             <label class="form-control-label">Departamento *</label>
-            <select class="form-control" id="departamento_codigo" x-model="departamento_codigo" @change="fetchProvincias">
+            <select class="form-control"
+                id="departamento_codigo"
+                x-model="departamento_codigo"
+                @change="fetchProvincias"
+                :disabled="isReadOnly">
                 <option></option>
                 @foreach ($departamentos as $item)
                     <option value="{{ $item->codigo }}">{{ $item->nombre }}</option>
@@ -41,7 +51,11 @@
         </div>
         <div class="form-group">
             <label class="form-control-label">Provincia *</label>
-            <select class="form-control" id="provincia_codigo" x-model="provincia_codigo" @change="fetchDistritos">
+            <select class="form-control"
+                id="provincia_codigo"
+                x-model="provincia_codigo"
+                @change="fetchDistritos"
+                :disabled="isReadOnly">
                 <option></option>
                 <template x-for="prov in provincias" :key="prov.codigo">
                     <option :value="prov.codigo" x-text="prov.nombre"></option>
@@ -50,7 +64,10 @@
         </div>
         <div class="form-group">
             <label class="form-control-label">Distrito *</label>
-            <select class="form-control" id="distrito_codigo"> x-model="distrito_codigo">
+            <select class="form-control"
+                id="distrito_codigo"
+                x-model="distrito_codigo"
+                :disabled="isReadOnly">
                 <option></option>
                 <template x-for="dist in distritos" :key="dist.codigo">
                     <option :value="dist.codigo" x-text="dist.nombre"></option>
@@ -92,13 +109,14 @@
             $('#dialog #ruc').after('<span class="invalid-feedback" role="alert"><strong>El "Ruc" debe tener exactamente 11 dígitos</strong></span>');
         }
     }
-    function ubigeoSelects() {
+    function ubigeoSelects(departamentoInicial = '', provinciaInicial = '', distritoInicial = '', isReadOnly = false) {
         return {
-            departamento_codigo: '',
-            provincia_codigo: '',
-            distrito_codigo: '',
+            departamento_codigo: departamentoInicial,
+            provincia_codigo: provinciaInicial,
+            distrito_codigo: distritoInicial,
             provincias: [],
             distritos: [],
+            isReadOnly: isReadOnly,
             async fetchProvincias() {
                 this.provincia_codigo = '';
                 this.distrito_codigo = '';
@@ -119,8 +137,16 @@
                     this.distritos = [];
                 }
             },
-            init() {
-                // Si quieres precargar datos al iniciar el componente (edición, por ejemplo), puedes hacerlo aquí
+            async init() {
+                if (this.departamento_codigo) {
+                    await this.fetchProvincias();
+                    this.provincia_codigo = provinciaInicial;
+
+                    if (this.provincia_codigo) {
+                        await this.fetchDistritos();
+                        this.distrito_codigo = distritoInicial;
+                    }
+                }
             }
         };
     }

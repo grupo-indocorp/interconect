@@ -10,6 +10,7 @@ use App\Models\Equipo;
 use App\Models\Etapa;
 use App\Models\Movistar;
 use App\Models\Sede;
+use App\Models\Sucursal;
 use App\Models\User;
 use App\Models\Venta;
 use App\Services\ClienteService;
@@ -417,6 +418,9 @@ class ClienteGestionController extends Controller
                     'ruc' => 'required|numeric|digits:11|starts_with:20,10|unique:clientes,ruc,' . $id . '|bail',
                     'razon_social' => 'required|bail',
                     'ciudad' => 'required|bail',
+                    'departamento_codigo' => 'required',
+                    'provincia_codigo' => 'required',
+                    'distrito_codigo' => 'required',
                 ],
                 [
                     'ruc.required' => 'El "Ruc" es obligatorio.',
@@ -426,11 +430,17 @@ class ClienteGestionController extends Controller
                     'ruc.unique' => 'El "Ruc" ya se encuentra registrado.',
                     'razon_social.required' => 'La "Razón Social" es obligatorio.',
                     'ciudad.required' => 'La "Ciudad" es obligatorio.',
+                    'departamento_codigo.required' => 'El "Departamento" es obligatorio.',
+                    'provincia_codigo.required' => 'La "Provincia" es obligatoria.',
+                    'distrito_codigo.required' => 'El "Distrito" es obligatorio.',
                 ]
             );
             $cliente->ruc = request('ruc');
             $cliente->razon_social = request('razon_social');
             $cliente->ciudad = request('ciudad');
+            $cliente->departamento_codigo = request('departamento_codigo');
+            $cliente->provincia_codigo = request('provincia_codigo');
+            $cliente->distrito_codigo = request('distrito_codigo');
             $cliente->generado_bot = filter_var(request('generado_bot'), FILTER_VALIDATE_BOOLEAN);
             $cliente->save();
             $this->clienteService->exportclienteStore($cliente->id);
@@ -483,6 +493,53 @@ class ClienteGestionController extends Controller
             $this->clienteService->exportclienteStore($cliente->id);
 
             return response()->json($contactos);
+        } elseif ($view === 'update-sucursal') {
+            $request->validate(
+                [
+                    'sucursal_nombre' => 'required|bail',
+                    'sucursal_direccion' => 'required|bail',
+                    'sucursal_departamento_codigo' => 'required|bail',
+                    'sucursal_provincia_codigo' => 'required|bail',
+                    'sucursal_distrito_codigo' => 'required|bail',
+                ],
+                [
+                    'sucursal_nombre.required' => 'El "Nombre de Sucursal" es obligatorio.',
+                    'sucursal_direccion.required' => 'La "Dirección de Sucursal" es obligatoria.',
+                    'sucursal_departamento_codigo.required' => 'El "Departamento de Sucursal" es obligatorio.',
+                    'sucursal_provincia_codigo.required' => 'La "Provincia de Sucursal" es obligatoria.',
+                    'sucursal_distrito_codigo.required' => 'El "Distrito de Sucursal" es obligatorio.',
+                ]
+            );
+            if (request('sucursal_id') != '') {
+                $sucursal = Sucursal::find(request('sucursal_id'));
+            } else {
+                $sucursal = new Sucursal;
+            }
+            $sucursal->nombre = request('sucursal_nombre');
+            $sucursal->direccion = request('sucursal_direccion');
+            $sucursal->facilidad_tecnica = filter_var(request('sucursal_facilidad_tecnica'), FILTER_VALIDATE_BOOLEAN);
+            $sucursal->departamento_codigo = request('sucursal_departamento_codigo');
+            $sucursal->provincia_codigo = request('sucursal_provincia_codigo');
+            $sucursal->distrito_codigo = request('sucursal_distrito_codigo');
+            $sucursal->cliente_id = $cliente->id;
+            $sucursal->save();
+
+            $data_sucursales = $cliente->sucursales()->orderBy('sucursals.id', 'desc')->limit(8)->get();
+            $sucursales = [];
+            foreach ($data_sucursales as $value) {
+                $sucursales[] = [
+                    'id' => $value->id,
+                    'nombre' => $value->nombre,
+                    'direccion' => $value->direccion,
+                    'facilidad_tecnica' => $value->facilidad_tecnica,
+                    'departamento_codigo' => $value->departamento_codigo,
+                    'provincia_codigo' => $value->provincia_codigo,
+                    'distrito_codigo' => $value->distrito_codigo,
+                ];
+            }
+            $this->clienteService->exportclienteStore($cliente->id);
+
+            return response()->json($sucursales);
         } elseif ($view === 'update-comentario') {
             $request->validate(
                 [

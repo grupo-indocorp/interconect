@@ -10,6 +10,7 @@
                         <div class="col-6 p-0">
                             <x-sistema.cliente.datos></x-sistema.cliente.datos>
                             <x-sistema.cliente.contactos></x-sistema.cliente.contactos>
+                            <x-sistema.cliente.sucursales />
                         </div>
                         <div class="col-6 p-0">
                             <x-sistema.cliente.ventas></x-sistema.cliente.ventas>
@@ -70,6 +71,13 @@
                 celular: $('#celular').val(),
                 cargo: $('#cargo').val(),
                 correo: $('#correo').val(),
+                // sucursal
+                sucursal_nombre: $('#sucursal_nombre').val(),
+                sucursal_direccion: $('#sucursal_direccion').val(),
+                sucursal_facilidad_tecnica: $('#sucursal_facilidad_tecnica').val(),
+                sucursal_departamento_codigo: $('#sucursal_departamento_codigo').val(),
+                sucursal_provincia_codigo: $('#sucursal_provincia_codigo').val(),
+                sucursal_distrito_codigo: $('#sucursal_distrito_codigo').val(),
                 // comentario
                 comentario: $('#comentario').val(),
                 // movisar

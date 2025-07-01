@@ -9,6 +9,7 @@ use App\Models\Equipo;
 use App\Models\Etapa;
 use App\Models\Exportcliente;
 use App\Models\Movistar;
+use App\Models\Sucursal;
 use App\Models\Venta;
 
 class ClienteService
@@ -163,6 +164,20 @@ class ClienteService
             ];
         }
 
+        $data_sucursales = $cliente->sucursales()->orderBy('sucursals.id', 'desc')->limit(8)->get();
+        $sucursales = [];
+        foreach ($data_sucursales as $value) {
+            $sucursales[] = [
+                'id' => $value->id,
+                'nombre' => $value->nombre,
+                'direccion' => $value->direccion,
+                'facilidad_tecnica' => $value->facilidad_tecnica,
+                'departamento_codigo' => $value->departamento_codigo,
+                'provincia_codigo' => $value->provincia_codigo,
+                'distrito_codigo' => $value->distrito_codigo,
+            ];
+        }
+
         $sistema = $user->hasRole('sistema');
         $gerente_general = $user->hasRole('gerente general');
         $gerente_comercial = $user->hasRole('gerente comercial');
@@ -195,6 +210,7 @@ class ClienteService
         $data = [
             'cliente' => $cliente,
             'contactos' => $contactos,
+            'sucursales' => $sucursales,
             'comentarios' => $comentarios,
             'movistar' => $cliente->movistars->last(),
             'ventas' => $cliente->ventas->last(),
@@ -307,6 +323,18 @@ class ClienteService
             $contacto->fecha_proximo = now();
             $contacto->cliente_id = $cliente->id;
             $contacto->save();
+        }
+        // Sucursal
+        if (request('sucursal_nombre') != '') {
+            $sucursal = new Sucursal();
+            $sucursal->nombre = request('sucursal_nombre');
+            $sucursal->direccion = request('sucursal_direccion');
+            $sucursal->facilidad_tecnica = filter_var(request('sucursal_facilidad_tecnica'), FILTER_VALIDATE_BOOLEAN);
+            $sucursal->departamento_codigo = request('sucursal_departamento_codigo');
+            $sucursal->provincia_codigo = request('sucursal_provincia_codigo');
+            $sucursal->distrito_codigo = request('sucursal_distrito_codigo');
+            $sucursal->cliente_id = $cliente->id;
+            $sucursal->save();
         }
         // Comentario
         $etapa = Etapa::find(request('etapa_id'));

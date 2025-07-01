@@ -60,6 +60,24 @@ class ClienteController extends Controller
                     ]
                 );
             }
+            if (request('sucursal_nombre') != '') {
+                $request->validate(
+                    [
+                        'sucursal_nombre' => 'required|bail',
+                        'sucursal_direccion' => 'required|bail',
+                        'sucursal_departamento_codigo' => 'required|bail',
+                        'sucursal_provincia_codigo' => 'required|bail',
+                        'sucursal_distrito_codigo' => 'required|bail',
+                    ],
+                    [
+                        'sucursal_nombre.required' => 'El "Nombre de Sucursal" es obligatorio.',
+                        'sucursal_direccion.required' => 'La "Dirección de Sucursal" es obligatoria.',
+                        'sucursal_departamento_codigo.required' => 'El "Departamento de Sucursal" es obligatorio.',
+                        'sucursal_provincia_codigo.required' => 'La "Provincia de Sucursal" es obligatoria.',
+                        'sucursal_distrito_codigo.required' => 'El "Distrito de Sucursal" es obligatorio.',
+                    ]
+                );
+            }
             $this->clienteService->clienteStore($request);
 
             // Establecer el mensaje de éxito en la sesión

@@ -24,6 +24,11 @@ class Cliente extends Model
         return $this->hasMany(Contacto::class);
     }
 
+    public function sucursales()
+    {
+        return $this->hasMany(Sucursal::class);
+    }
+
     public function movistars()
     {
         return $this->hasMany(Movistar::class);
