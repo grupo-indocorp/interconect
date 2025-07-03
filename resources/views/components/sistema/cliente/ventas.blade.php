@@ -22,6 +22,7 @@
                     <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder ps-2">Producto</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder ps-2" style="width: 200px;">Detalle</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder ps-2" style="width: 200px;">Sucursales</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder ps-2" style="width: 100px;">Cantidad</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder ps-2" style="width: 100px;">Precio</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder ps-2" style="width: 130px;">Cargo Fijo</th>
@@ -59,6 +60,7 @@
     }
     var selectElement = document.getElementById('producto_id');
     $('#producto_id').on("change", function (event) {
+        let cliente_id = $('#cliente_id').val();
         $.ajax({
             url: `{{ url('producto/0') }}`,
             method: "GET",
@@ -82,6 +84,11 @@
                                 <option value="400 Mbps">400 Mbps</option>
                                 <option value="600 Mbps">600 Mbps</option>
                                 <option value="1000 Mbps">1000 Mbps</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" id="sucursal_id${num}">
+                                ${getSucursalesCliente(cliente_id, num)}
                             </select>
                         </td>
                         <td>
@@ -153,6 +160,7 @@
                         tbodyRef.append(`<tr>
                                 <td class="font-weight-bold mb-0">${producto.nombre}</td>
                                 <td class="font-weight-bold mb-0">${producto.pivot.detalle}</td>
+                                <td class="font-weight-bold mb-0">${producto.pivot.sucursal_nombre}</td>
                                 <td class="font-weight-bold mb-0">${producto.pivot.cantidad}</td>
                                 <td class="font-weight-bold mb-0">${producto.pivot.precio}</td>
                                 <td class="font-weight-bold mb-0">${producto.pivot.total}</td>
@@ -162,7 +170,7 @@
                         venta_id = producto.pivot.venta_id;
                     })
                     tfootRef.append(`<tr>
-                            <td colspan="3"></td>
+                            <td colspan="4"></td>
                             <td class="text-uppercase text-secondary font-weight-bolder">TOTAL</td>
                             <td>
                                 <input class="form-control" type="number" value="${total.toFixed(2)}" id="total" disabled>
@@ -181,6 +189,24 @@
             }
         });
     }
+    function getSucursalesCliente(cliente_id, num) {
+        $.ajax({
+            url: `{{ url('cliente-gestion/${cliente_id}') }}`,
+            method: "GET",
+            data: {
+                view: 'show-sucursal-select',
+            },
+            success: function (sucursales) {
+                let select = $(`#sucursal_id${num}`);
+                select.html('');
+                let option = ``;
+                sucursales.forEach(function (sucursal) {
+                    option += `<option value="${sucursal.id}">${sucursal.nombre}</option>`;
+                })
+                select.append(option);
+            }
+        });
+    }
     function editarVenta(venta_id) {
         let tbodyRef = $('#producto_table tbody');
         let tfootRef = $('#producto_table tfoot');
@@ -188,6 +214,7 @@
         tbodyRef.html('');
         tfootRef.html('');
         headerRef.html('');
+        let cliente_id = $('#cliente_id').val();
         $.ajax({
             url: `{{ url('cliente-gestion/${venta_id}') }}`,
             method: "GET",
@@ -209,6 +236,11 @@
                                 <input class="form-control" type="text" value="${producto.pivot.detalle}" id="detalle${num}">
                             </td>
                             <td>
+                                <select class="form-control" id="sucursal_id${num}">
+                                    ${getSucursalesCliente(cliente_id, num)}
+                                </select>
+                            </td>
+                            <td>
                                 <input class="form-control" type="number" value="${producto.pivot.cantidad}" id="cantidad${num}" onkeyup="cargoFijoProducto(${num})">
                             </td>
                             <td>
@@ -228,7 +260,7 @@
                 })
                 tbodyRef.attr('num', num);
                 tfootRef.append(`<tr>
-                        <td colspan="3"></td>
+                        <td colspan="4"></td>
                         <td class="text-uppercase text-secondary font-weight-bolder">TOTAL</td>
                         <td>
                             <input class="form-control" type="number" value="${total.toFixed(2)}" id="total" disabled>
@@ -254,7 +286,7 @@
         headerRef.html('');
         $('#producto_id').prop('disabled', false);
         tfootRef.append(`<tr>
-                <td colspan="3"></td>
+                <td colspan="4"></td>
                 <td class="text-uppercase text-secondary font-weight-bolder">TOTAL</td>
                 <td>
                     <input class="form-control" type="number" value="0.00" id="total" disabled>
@@ -283,6 +315,8 @@
                 cantidad: $('#cantidad'+tr.id).val(),
                 precio: $('#precio'+tr.id).val(),
                 total: $('#cargofijo'+tr.id).val(),
+                sucursal_nombre: $('#sucursal_id'+tr.id+' option:selected').text(),
+                sucursal_id: $('#sucursal_id'+tr.id).val(),
             });
         });
         $.ajaxSetup({

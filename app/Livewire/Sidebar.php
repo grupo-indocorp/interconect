@@ -33,12 +33,12 @@ class Sidebar extends Component
                 'url' => 'cliente-gestion',
                 'can' => 'sistema.gestion_cliente',
             ],
-            [
-                'icon' => 'fa-regular fa-calendar-days',
-                'nombre' => 'Agenda',
-                'url' => 'notificacion',
-                'can' => 'sistema.notificacion',
-            ],
+            // [
+            //     'icon' => 'fa-regular fa-calendar-days',
+            //     'nombre' => 'Agenda',
+            //     'url' => 'notificacion',
+            //     'can' => 'sistema.notificacion',
+            // ],
             [
                 'icon' => 'fa-users',
                 'nombre' => 'Lista de Usuarios',

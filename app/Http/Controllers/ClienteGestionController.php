@@ -370,6 +370,9 @@ class ClienteGestionController extends Controller
                 'equipos' => $equipos,
                 'users' => $users,
             ]);
+        } elseif ($view === 'show-sucursal-select') {
+            $sucursal = Sucursal::where('cliente_id', $id)->get();
+            return response()->json($sucursal);
         }
     }
 
@@ -674,6 +677,8 @@ class ClienteGestionController extends Controller
                         'cantidad' => $row['cantidad'],
                         'precio' => $row['precio'],
                         'total' => $row['total'],
+                        'sucursal_nombre' => $row['sucursal_nombre'] ?? null,
+                        'sucursal_id' => $row['sucursal_id'] ?? null,
                     ]);
                     $venta_total += $row['total'];
                 }

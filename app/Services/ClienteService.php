@@ -374,6 +374,8 @@ class ClienteService
                     'cantidad' => $row['cantidad'],
                     'precio' => $row['precio'],
                     'total' => $row['total'],
+                    'sucursal_nombre' => $row['sucursal_nombre'] ?? null,
+                    'sucursal_id' => $row['sucursal_id'] ?? null,
                 ]);
                 $venta_total += $row['total'];
             }

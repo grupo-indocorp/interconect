@@ -10,6 +10,15 @@
             <!-- Botones de notificaciones y perfil -->
             <div class="flex items-center space-x-4">
                 <!-- Botón de notificaciones -->
+                @can('sistema.notificacion')
+                <a href="{{ url('notificacion') }}" 
+                    class="cursor-pointer p-2 rounded-full transition-all duration-200 hover:bg-[#EB5C1F]/25"
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="right"
+                    data-bs-original-title="Agenda">
+                    <i class="fa-solid fa-regular fa-calendar-days text-2xl text-[#EB5C1F] group-hover:scale-110 transition-transform duration-200"></i>
+                </a>
+                @endcan
                 <x-ui.button type="button"
                     class="text-xs bg-[#EB5C1F] text-white px-3 py-2 rounded-lg hover:bg-[#ec936c] transition duration-300"
                     onclick="cargarNotificacion('pendiente')">

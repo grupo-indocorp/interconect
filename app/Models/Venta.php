@@ -23,6 +23,16 @@ class Venta extends Model
     // Relación muchos a muchos
     public function productos()
     {
-        return $this->belongsToMany(Producto::class)->withPivot('id', 'producto_nombre', 'detalle', 'cantidad', 'precio', 'total')->withTimestamps();
+        return $this->belongsToMany(Producto::class)->withPivot(
+                'id',
+                'producto_nombre',
+                'detalle',
+                'cantidad',
+                'precio',
+                'total',
+                'sucursal_nombre',
+                'sucursal_id'
+            )
+            ->withTimestamps();
     }
 }

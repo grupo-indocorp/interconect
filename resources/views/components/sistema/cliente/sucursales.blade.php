@@ -6,7 +6,7 @@
 @php
     $departamentos =  \App\Models\Departamento::orderBy('nombre')->get();
 @endphp
-<x-sistema.card class="m-2" x-data="sucursalForm()" x-init="init()">
+<x-sistema.card class="m-2" x-data="sucursalForm()" x-ref="sucursalComponente" x-init="init()">
     <div class="d-flex flex-row flex-wrap justify-content-between">
         <x-sistema.titulo title="Sucursales" />
         <div class="flex flex-row gap-2">
@@ -46,7 +46,7 @@
                             id="sucursal_facilidad_tecnica"
                             name="sucursal_facilidad_tecnica"
                             x-model="form.sucursal_facilidad_tecnica"
-                            :checked="form.sucursal_facilidad_tecnica">
+                            :checked="form.sucursal_facilidad_tecnica == true">
                     </div>
                 </div>
                 <div class="col-6">
@@ -151,6 +151,17 @@
             },
             sucursal_provincias: [],
             sucursal_distritos: [],
+            resetForm() {
+                this.form = {
+                    sucursal_id: null,
+                    sucursal_nombre: '',
+                    sucursal_direccion: '',
+                    sucursal_departamento_codigo: '',
+                    sucursal_provincia_codigo: '',
+                    sucursal_distrito_codigo: '',
+                    sucursal_facilidad_tecnica: ''
+                };
+            },
             async fetchProvinciasSucursal() {
                 this.form.sucursal_provincia_codigo = '';
                 this.form.sucursal_distrito_codigo = '';
@@ -196,6 +207,72 @@
                         await this.fetchDistritosSucursal();
                     }
                 }
+            },
+            async saveSucursal() {
+                const dialog = document.querySelector("#dialog");
+                dialog.querySelectorAll('.is-invalid, .invalid-feedback').forEach(element => {
+                    element.classList.contains('is-invalid') ? element.classList.remove('is-invalid') : element
+                .remove();
+                });
+                let cliente_id = $('#cliente_id').val();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: `cliente-gestion/${cliente_id}`,
+                    method: "PUT",
+                    data: {
+                        view: 'update-sucursal',
+                        sucursal_id: $('#sucursal_id').val(),
+                        sucursal_nombre: $('#sucursal_nombre').val(),
+                        sucursal_direccion: $('#sucursal_direccion').val(),
+                        sucursal_facilidad_tecnica: $('#sucursal_facilidad_tecnica').is(':checked'),
+                        sucursal_departamento_codigo: $('#sucursal_departamento_codigo').val(),
+                        sucursal_provincia_codigo: $('#sucursal_provincia_codigo').val(),
+                        sucursal_distrito_codigo: $('#sucursal_distrito_codigo').val(),
+                    },
+                    success: function(result) {
+                        let alpineComponent = Alpine.$data(document.querySelector('[x-ref="sucursalComponente"]'));
+                        alpineComponent.resetForm();
+                        alpineComponent.listSucursales(result);
+                    },
+                    error: function(response) {
+                        mostrarError(response);
+                    }
+                });
+            },
+            listSucursales(sucursales) {
+                let html = "";
+                sucursales.forEach(function(sucursal) {
+                    html += `<tr id="${sucursal.id}">
+                                <td class="align-middle text-uppercase text-sm">
+                                    <span class="text-secondary text-xs font-weight-normal">${sucursal.nombre}</span>
+                                </td>
+                                <td class="align-middle text-uppercase text-sm">
+                                    <span class="text-secondary text-xs font-weight-normal">${sucursal.direccion}</span>
+                                </td>
+                                <td class="align-middle text-uppercase text-sm">
+                                    <span class="text-secondary text-xs font-weight-normal">${sucursal.facilidad_tecnica ? 'SI' : 'NO'}</span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <button class="btn btn-sm btn-primary" type="button"
+                                        @click="editarSucursal({
+                                            sucursal_id: '${sucursal.id}',
+                                            sucursal_nombre: '${sucursal.nombre}',
+                                            sucursal_direccion: '${sucursal.direccion}',
+                                            sucursal_facilidad_tecnica: '${sucursal.facilidad_tecnica}',
+                                            sucursal_departamento_codigo: '${sucursal.departamento_codigo}',
+                                            sucursal_provincia_codigo: '${sucursal.provincia_codigo}',
+                                            sucursal_distrito_codigo: '${sucursal.distrito_codigo}',
+                                        })">
+                                        Editar
+                                    </button>
+                                </td>
+                            </tr>`;
+                })
+                $('#sucursales').html(html);
             }
         };
     }

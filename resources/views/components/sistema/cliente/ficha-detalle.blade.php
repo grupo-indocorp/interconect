@@ -42,7 +42,7 @@
                             <x-sistema.cliente.sucursales :$sucursales>
                                 @role('ejecutivo')
                                     <x-slot:botonFooter>
-                                        <button type="button" class="btn bg-gradient-secondary" onclick="saveSucursal()"
+                                        <button type="button" class="btn bg-gradient-secondary" @click="saveSucursal()"
                                             id="btn_guardar_sucursal">Guardar</button>
                                     </x-slot>
                                 @endrole
@@ -217,79 +217,6 @@
         })
         $('#contactos').html(html);
     }
-
-    function saveSucursal() {
-        const dialog = document.querySelector("#dialog");
-        dialog.querySelectorAll('.is-invalid, .invalid-feedback').forEach(element => {
-            element.classList.contains('is-invalid') ? element.classList.remove('is-invalid') : element
-        .remove();
-        });
-        let cliente_id = $('#cliente_id').val();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: `cliente-gestion/${cliente_id}`,
-            method: "PUT",
-            data: {
-                view: 'update-sucursal',
-                sucursal_id: $('#sucursal_id').val(),
-                sucursal_nombre: $('#sucursal_nombre').val(),
-                sucursal_direccion: $('#sucursal_direccion').val(),
-                sucursal_facilidad_tecnica: $('#sucursal_facilidad_tecnica').val(),
-                sucursal_departamento_codigo: $('#sucursal_departamento_codigo').val(),
-                sucursal_provincia_codigo: $('#sucursal_provincia_codigo').val(),
-                sucursal_distrito_codigo: $('#sucursal_distrito_codigo').val(),
-            },
-            success: function(result) {
-                $('#sucursal_id').val('');
-                $('#sucursal_nombre').val('');
-                $('#sucursal_direccion').val('');
-                $('#sucursal_departamento_codigo').val('');
-                $('#sucursal_provincia_codigo').val('');
-                $('#sucursal_distrito_codigo').val('');
-                $('#sucursal_facilidad_tecnica').prop('checked', false);
-                listSucursales(result);
-            },
-            error: function(response) {
-                mostrarError(response);
-            }
-        });
-    }
-    function listSucursales(sucursales) {
-        let html = "";
-        sucursales.forEach(function(sucursal) {
-            html += `<tr id="${sucursal.id}">
-                        <td class="align-middle text-uppercase text-sm">
-                            <span class="text-secondary text-xs font-weight-normal">${sucursal.nombre}</span>
-                        </td>
-                        <td class="align-middle text-uppercase text-sm">
-                            <span class="text-secondary text-xs font-weight-normal">${sucursal.direccion}</span>
-                        </td>
-                        <td class="align-middle text-uppercase text-sm">
-                            <span class="text-secondary text-xs font-weight-normal">${sucursal.facilidad_tecnica}</span>
-                        </td>
-                        <td class="align-middle text-center">
-                            <button class="btn btn-sm btn-primary" type="button"
-                                @click="editarSucursal({
-                                    sucursal_id: '${sucursal.id}',
-                                    sucursal_nombre: '${sucursal.nombre}',
-                                    sucursal_direccion: '${sucursal.direccion}',
-                                    sucursal_facilidad_tecnica: '${sucursal.facilidad_tecnica}',
-                                    sucursal_departamento_codigo: '${sucursal.departamento_codigo}',
-                                    sucursal_provincia_codigo: '${sucursal.provincia_codigo}',
-                                    sucursal_distrito_codigo: '${sucursal.distrito_codigo}',
-                                })">
-                                Editar
-                            </button>
-                        </td>
-                    </tr>`;
-        })
-        $('#sucursales').html(html);
-    }
-
     function saveComentario() {
         const dialog = document.querySelector("#dialog");
         dialog.querySelectorAll('.is-invalid, .invalid-feedback').forEach(element => {
