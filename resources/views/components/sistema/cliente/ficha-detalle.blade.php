@@ -109,8 +109,15 @@
                     <x-sistema.cliente.sucursales :$sucursales>
                         @role('ejecutivo')
                             <x-slot:botonFooter>
-                                <button type="button" class="btn bg-primary text-white" onclick="saveSucursal()"
-                                    id="btn_guardar_sucursal">Guardar</button>
+                                <button type="button" class="btn bg-primary text-white"
+                                    @click="saveSucursal()"
+                                    id="btn_guardar_sucursal">
+                                    Guardar
+                                </button>
+                                <button type="button" class="btn bg-secondary text-white"
+                                    @click="resetForm()">
+                                    Cancelar
+                                </button>
                             </x-slot>
                         @endrole
                     </x-sistema.cliente.sucursales>
