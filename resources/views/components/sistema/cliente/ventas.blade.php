@@ -5,7 +5,6 @@
 ])
 <x-sistema.card class="p-4 m-2 mx-0">
     <div class="d-flex flex-row flex-wrap justify-content-between mb-3">
-        <x-sistema.titulo title="Productos en Negociación" />
         @role('ejecutivo')
             <div class="flex flex-row gap-2" id="cont-venta-header"></div>
         @endrole

@@ -7,7 +7,6 @@
 <x-sistema.card class="p-4 m-2 mb-4 mx-0 bg-white shadow-md rounded-lg">
     {{-- Header --}}
     <div class="d-flex flex-wrap justify-between items-center mb-3">
-        <x-sistema.titulo title="Agenda *" />
         <div class="flex gap-2">
             {{ $botonHeader }}
         </div>

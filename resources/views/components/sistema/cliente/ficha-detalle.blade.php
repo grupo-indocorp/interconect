@@ -68,10 +68,10 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <x-sistema.titulo title="Agenda" />
                     <button class="btn btn-sm btn-primary" onclick="toggleSeccion('panel-agenda', this)">
-                        <i class="fa fa-chevron-up"></i>
+                        <i class="fa fa-chevron-down"></i>
                     </button>
                 </div>
-                <div id="panel-agenda" style="display: block;">
+                <div id="panel-agenda" style="display: none;">
                     <x-sistema.notificacion.create :$notificacion>
                         @role('ejecutivo')
                             <x-slot:botonFooter>
@@ -87,10 +87,10 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <x-sistema.titulo title="Productos en Negociación" />
                     <button class="btn btn-sm btn-primary" onclick="toggleSeccion('panel-ventas', this)">
-                        <i class="fa fa-chevron-up"></i>
+                        <i class="fa fa-chevron-down"></i>
                     </button>
                 </div>
-                <div id="panel-ventas" style="display: block;">
+                <div id="panel-ventas" style="display: none;">
                     <x-sistema.cliente.ventas />
                 </div>
             </div>
@@ -100,10 +100,10 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <x-sistema.titulo title="Contactos" />
                     <button class="btn btn-sm btn-primary" onclick="toggleSeccion('panel-contactos', this)">
-                        <i class="fa fa-chevron-up"></i>
+                        <i class="fa fa-chevron-down"></i>
                     </button>
                 </div>
-                <div id="panel-contactos" style="display: block;">
+                <div id="panel-contactos" style="display: none;">
                     <x-sistema.cliente.contactos :$contactos>
                         @role('ejecutivo')
                             <x-slot:botonFooter>
@@ -128,10 +128,10 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <x-sistema.titulo title="Sucursales" />
                     <button class="btn btn-sm btn-primary" onclick="toggleSeccion('panel-sucursales', this)">
-                        <i class="fa fa-chevron-up"></i>
+                        <i class="fa fa-chevron-down"></i>
                     </button>
                 </div>
-                <div id="panel-sucursales" style="display: block;">
+                <div id="panel-sucursales" style="display: none;">
                     <x-sistema.cliente.sucursales :$sucursales>
                         @role('ejecutivo')
                             <x-slot:botonFooter>

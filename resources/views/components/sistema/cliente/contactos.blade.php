@@ -8,7 +8,6 @@
 <x-sistema.card class="p-4 m-2 mb-2 mx-0" x-data="contactoForm()">
     {{-- Título y botón --}}
     <div class="d-flex flex-row flex-wrap justify-between items-center mb-3">
-        <x-sistema.titulo title="Contactos" />
         <div class="d-flex gap-2">
             {{ $botonHeader }}
         </div>

@@ -6,9 +6,8 @@
 @php
     $departamentos =  \App\Models\Departamento::orderBy('nombre')->get();
 @endphp
-<x-sistema.card class="m-2" x-data="sucursalForm()" x-ref="sucursalComponente" x-init="init()">
+<x-sistema.card class="p-4 m-2 mb-2 mx-0" x-data="sucursalForm()" x-ref="sucursalComponente" x-init="init()">
     <div class="d-flex flex-row flex-wrap justify-content-between">
-        <x-sistema.titulo title="Sucursales" />
         <div class="flex flex-row gap-2">
             {{ $botonHeader }}
         </div>
