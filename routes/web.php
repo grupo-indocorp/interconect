@@ -43,8 +43,9 @@ Route::get('/components', function () {
 Route::get('/', function () {
     return redirect('/login');
 });
-
-// Redirigir registro a la página de inicio
+Route::get('/logout', function () {
+    return redirect('/login');
+});
 Route::get('/register', function () {
     return redirect('/login');
 });
