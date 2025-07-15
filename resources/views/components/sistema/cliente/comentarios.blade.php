@@ -20,8 +20,7 @@
                 id="comentario"
                 name="comentario"
                 rows="2"
-                placeholder="Escribe tu comentario...">
-            </textarea>
+                placeholder="Escribe tu comentario..."></textarea>
         </div>
     @endrole
 

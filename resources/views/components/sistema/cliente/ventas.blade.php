@@ -178,6 +178,10 @@
     }
 
     function guardarProducto(num) {
+        if (!$('#sucursal_id' + num).val()) {
+            alert('Debe seleccionar una sucursal');
+            return;
+        }
         const producto = {
             num: num,
             producto_id: $('#producto_id' + num).val(),

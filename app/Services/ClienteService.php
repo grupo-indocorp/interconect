@@ -355,41 +355,41 @@ class ClienteService
         $comentario->save();
         // Movistar
         $movistar = new Movistar;
-        $movistar->linea_claro = request('linea_claro') ?? '';
-        $movistar->linea_entel = request('linea_entel') ?? '';
-        $movistar->linea_bitel = request('linea_bitel') ?? '';
-        $movistar->linea_movistar = request('linea_movistar') ?? '';
-        $movistar->estadowick_id = request('estadowick_id') ?? 0;
-        $movistar->estadodito_id = request('estadodito_id');
-        $movistar->clientetipo_id = request('clientetipo_id');
+        $movistar->linea_claro = request('linea_claro') ?? 0;
+        $movistar->linea_entel = request('linea_entel') ?? 0;
+        $movistar->linea_bitel = request('linea_bitel') ?? 0;
+        $movistar->linea_movistar = request('linea_movistar') ?? 0;
+        $movistar->estadowick_id = request('estadowick_id') ?? 1;
+        $movistar->estadodito_id = request('estadodito_id') ?? 1;
+        $movistar->clientetipo_id = request('clientetipo_id') ?? 1;
         $movistar->ejecutivo_salesforce = request('ejecutivo_salesforce') ?? '';
-        $movistar->agencia_id = request('agencia_id');
+        $movistar->agencia_id = request('agencia_id') ?? 1;
         $movistar->cliente_id = $cliente->id;
         $movistar->save();
         // Etapa
         $cliente->etapas()->attach(request('etapa_id'));
         // Cargo
-        if (! is_null(request('dataCargo'))) {
-            $venta_total = 0;
-            $venta = new Venta;
-            $venta->cliente_id = $cliente->id;
-            $venta->user_id = $user->id;
-            $venta->save();
-            foreach (request('dataCargo') as $row) {
-                $venta->productos()->attach($row['producto_id'], [
-                    'producto_nombre' => $row['producto_nombre'],
-                    'detalle' => $row['detalle'] ?? '',
-                    'cantidad' => $row['cantidad'],
-                    'precio' => $row['precio'],
-                    'total' => $row['total'],
-                    'sucursal_nombre' => $row['sucursal_nombre'] ?? null,
-                    'sucursal_id' => $row['sucursal_id'] ?? null,
-                ]);
-                $venta_total += $row['total'];
-            }
-            $venta->total = $venta_total;
-            $venta->save();
-        }
+        // if (! is_null(request('dataCargo'))) {
+            // $venta_total = 0;
+            // $venta = new Venta;
+            // $venta->cliente_id = $cliente->id;
+            // $venta->user_id = $user->id;
+            // $venta->save();
+            // foreach (request('dataCargo') as $row) {
+            //     $venta->productos()->attach($row['producto_id'], [
+            //         'producto_nombre' => $row['producto_nombre'],
+            //         'detalle' => $row['detalle'] ?? '',
+            //         'cantidad' => $row['cantidad'],
+            //         'precio' => $row['precio'],
+            //         'total' => $row['total'],
+            //         'sucursal_nombre' => $row['sucursal_nombre'],
+            //         'sucursal_id' => $row['sucursal_id'],
+            //     ]);
+            //     $venta_total += $row['total'];
+            // }
+            // $venta->total = $venta_total;
+            // $venta->save();
+        // }
 
         // Registrar en exportcliente
         $this->exportclienteStore($cliente->id);

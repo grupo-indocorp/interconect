@@ -46,7 +46,7 @@
                 </div>
             </div>
             {{-- PRODUCTOS EN NEGOCIACIÓN --}}
-            <div class="p-2 mb-0">
+            {{-- <div class="p-2 mb-0">
                 <div class="d-flex justify-content-between align-items-center">
                     <x-sistema.titulo title="Productos en Negociación" />
                     <button class="btn btn-sm btn-primary" onclick="toggleSeccion('panel-ventas', this)">
@@ -56,7 +56,7 @@
                 <div id="panel-ventas" style="display: none;">
                     <x-sistema.cliente.ventas />
                 </div>
-            </div>
+            </div> --}}
         </div>
         {{-- COLUMNA LATERAL: 4 columnas --}}
         <div class="m-0 p-1 col-md-4">
@@ -134,10 +134,10 @@
                 // movistar
                 estadowick_id: $('#estadowick_id').val() ?? 1,
                 estadodito_id: $('#estadodito_id').val() ?? 1,
-                linea_claro: $('#linea_claro').val() ?? '0',
-                linea_entel: $('#linea_entel').val() ?? '0',
-                linea_bitel: $('#linea_bitel').val() ?? '0',
-                linea_movistar: $('#linea_movistar').val() ?? '0',
+                linea_claro: $('#linea_claro').val() ?? 0,
+                linea_entel: $('#linea_entel').val() ?? 0,
+                linea_bitel: $('#linea_bitel').val() ?? 0,
+                linea_movistar: $('#linea_movistar').val() ?? 0,
                 clientetipo_id: $('#clientetipo_id').val() ?? 1,
                 ejecutivo_salesforce: $('#ejecutivo_salesforce').val() ?? '',
                 agencia_id: $('#agencia_id').val() ?? 1,

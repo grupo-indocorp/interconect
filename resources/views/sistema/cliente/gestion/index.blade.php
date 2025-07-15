@@ -190,41 +190,48 @@
             /**
              * Seleccionar clientes
              * */
-            document.getElementById('selectAllClients').addEventListener('change', function(e) {
-                let checkboxes = document.querySelectorAll('tbody .form-check-input');
-                checkboxes.forEach(function(checkbox) {
-                    checkbox.checked = e.target.checked;
+            const a = document.getElementById('selectAllClients');
+            if (a) {
+                document.getElementById('selectAllClients').addEventListener('change', function(e) {
+                    let checkboxes = document.querySelectorAll('tbody .form-check-input');
+                    checkboxes.forEach(function(checkbox) {
+                        checkbox.checked = e.target.checked;
+                    });
                 });
-            });
+            }
+            const b = document.getElementById('btnAssignClients');
+            if (b) {
+                document.getElementById('btnAssignClients').addEventListener('click', function(e) {
+                    let selectedClients = [];
+                    let checkboxes = document.querySelectorAll('tbody .form-check-input:checked');
+                    checkboxes.forEach(function(checkbox) {
+                        selectedClients.push(checkbox.value);
+                    });
+                    if (selectedClients.length === 0) {
+                        alert('Seleccione un cliente, ¡Por favor!');
+                    } else {
+                        $.ajax({
+                            url: `{{ url('cliente-gestion/0/edit') }}`,
+                            method: "GET",
+                            data: {
+                                view: 'edit-asignar',
+                                clients: selectedClients,
+                            },
+                            success: function(result) {
+                                $('#contModal').html(result);
+                                openModal();
+                            },
+                            error: function(response) {
+                                console.log('error');
+                            }
+                        });
+                    }
+                })
+            }
+
             /**
              * Capturar clientes seleccionados para asignar a un ejecutivo
              * */
-            document.getElementById('btnAssignClients').addEventListener('click', function(e) {
-                let selectedClients = [];
-                let checkboxes = document.querySelectorAll('tbody .form-check-input:checked');
-                checkboxes.forEach(function(checkbox) {
-                    selectedClients.push(checkbox.value);
-                });
-                if (selectedClients.length === 0) {
-                    alert('Seleccione un cliente, ¡Por favor!');
-                } else {
-                    $.ajax({
-                        url: `{{ url('cliente-gestion/0/edit') }}`,
-                        method: "GET",
-                        data: {
-                            view: 'edit-asignar',
-                            clients: selectedClients,
-                        },
-                        success: function(result) {
-                            $('#contModal').html(result);
-                            openModal();
-                        },
-                        error: function(response) {
-                            console.log('error');
-                        }
-                    });
-                }
-            })
 
             function exportCliente() {
                 let filtro = $('#data_filtro').val();
