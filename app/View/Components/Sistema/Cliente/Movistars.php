@@ -28,7 +28,7 @@ class Movistars extends Component
     {
         $estadowicks = Estadowick::all();
         $estadoditos = Estadodito::all();
-        $clientetipos = Clientetipo::all();
+        $clientetipos = Clientetipo::where('estado', 1)->get();
         $agencias = Agencia::all();
         $config = Helpers::configuracionDatosAdicionalesJsonGet();
 

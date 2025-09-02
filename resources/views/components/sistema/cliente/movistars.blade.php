@@ -193,9 +193,9 @@
     
             let agenciaId = ''; // Default: libre (vacío)
     
-            if (clientetipoId == 1) {
+            if (clientetipoId == 5) {
                 agenciaId = 1;
-            } else if (clientetipoId == 3 || clientetipoId == 4) {
+            } else if (clientetipoId == 6 || clientetipoId == 7) {
                 agenciaId = 2;
             }
     
