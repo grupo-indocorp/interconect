@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 8000:80
+      - 8100:80
     volumes:
       - .:/var/www/html
     depends_on:
@@ -18,12 +18,12 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_DATABASE: laravel
+      MYSQL_DATABASE: entel
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: laravel
       MYSQL_PASSWORD: secret
     ports:
-      - 3306:3306
+      - 3307:3306
     volumes:
       - dbdata:/var/lib/mysql
     networks:
