@@ -63,7 +63,7 @@
                 </div>
             </div>
             {{-- CONTACTOS --}}
-            <div class="p-2 mb-0">
+            {{-- <div class="p-2 mb-0">
                 <div class="d-flex justify-content-between align-items-center">
                     <x-sistema.titulo title="Contactos" />
                     <button class="btn btn-sm btn-primary" onclick="toggleSeccion('panel-contactos', this)">
@@ -88,9 +88,9 @@
                         @endrole
                     </x-sistema.cliente.contactos>
                 </div>
-            </div>
+            </div> --}}
             {{-- SUCURSALES --}}
-            <div class="p-2 mb-0">
+            {{-- <div class="p-2 mb-0">
                 <div class="d-flex justify-content-between align-items-center">
                     <x-sistema.titulo title="Sucursales" />
                     <button class="btn btn-sm btn-primary" onclick="toggleSeccion('panel-sucursales', this)">
@@ -114,7 +114,7 @@
                         @endrole
                     </x-sistema.cliente.sucursales>
                 </div>
-            </div>
+            </div> --}}
             {{-- PRODUCTOS EN NEGOCIACIÓN --}}
             <div class="p-2 mb-0">
                 <div class="d-flex justify-content-between align-items-center">

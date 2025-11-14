@@ -310,7 +310,7 @@ class ClienteService
         $cliente->apellido_paterno_cliente = request('apellido_paterno_cliente');
         $cliente->apellido_materno_cliente = request('apellido_materno_cliente');
         $cliente->tipo_documento = request('tipo_documento');
-        $cliente->ciudad = request('ciudad');
+        $cliente->ciudad = request('ciudad') ?? '';
         $cliente->fecha_gestion = now();
         $cliente->fecha_nuevo = now();
         $cliente->etiqueta_id = 1; // nuevo

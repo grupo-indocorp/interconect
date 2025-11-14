@@ -89,15 +89,45 @@
                     disabled>
             </div>
         </div>
-        {{-- Dirección Fiscal --}}
-        <div class="col-12">
-            <input type="text"
-                id="ciudad"
-                name="ciudad"
-                class="form-control"
-                placeholder="Dirección Fiscal *"
-                value="{{ $cliente->ciudad ?? '' }}"
-                disabled>
+
+        <div class="col-12 row g-3">
+            <div class="col-md-8">
+                <input type="text"
+                    id="correo_cliente"
+                    name="correo_cliente"
+                    class="form-control"
+                    placeholder="Correo Electrónico *"
+                    value="{{ $cliente->correo_cliente ?? '' }}"
+                    disabled>
+            </div>
+            <div class="col-md-3">
+                <input type="text"
+                    maxlength="9"
+                    id="nuevo_celular"
+                    class="form-control"
+                    placeholder="Celular *">
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-warning" id="btn-add-celular-cliente">+</button>
+            </div>
+        </div>
+
+        <div class="col-12 row g-3" id="celular_cliente">
+            @isset($cliente->celular_cliente)
+                @foreach (json_decode($cliente->celular_cliente) as $value)
+                    <div class="col-md-3 celular-item">
+                        <input type="text"
+                            name="celular_cliente[]"
+                            maxlength="9"
+                            class="form-control"
+                            value="{{ $value }}"
+                            readonly>
+                    </div>
+                    <div class="col-md-1 celular-item">
+                        <button type="button" class="btn btn-danger btn-remove-celular-cliente">x</button>
+                    </div>
+                @endforeach
+            @endisset
         </div>
 
         {{-- Departamento, Provincia y Distrito --}}
@@ -167,7 +197,7 @@
             nombre_cliente: $('#nombre_cliente').val(),
             apellido_paterno_cliente: $('#apellido_paterno_cliente').val(),
             apellido_materno_cliente: $('#apellido_materno_cliente').val(),
-            ciudad: $('#ciudad').val(),
+            
             departamento_codigo: $('#departamento_codigo').val(),
             provincia_codigo: $('#provincia_codigo').val(),
             distrito_codigo: $('#distrito_codigo').val(),
@@ -184,8 +214,7 @@
         $('#nombre_cliente').val(data.nombre_cliente);
         $('#apellido_paterno_cliente').val(data.apellido_paterno_cliente);
         $('#apellido_materno_cliente').val(data.apellido_materno_cliente);
-
-        $('#ciudad').val(data.ciudad);
+        $('#celular_cliente').val(data.celular_cliente);
         $('#departamento_codigo').val(data.departamento_codigo).trigger('change');
 
         setTimeout(() => {
@@ -370,5 +399,56 @@
             $('#tipo_documento').prop('disabled', false);
         }
         mostrarCampos();
+    });
+
+    // Celulares de cliente
+    document.addEventListener('DOMContentLoaded', function () {
+        const addBtn = document.getElementById('btn-add-celular-cliente');
+        const nuevoCelular = document.getElementById('nuevo_celular');
+        const listaCelulares = document.getElementById('celular_cliente');
+
+        // Agregar nuevo celular
+        addBtn.addEventListener('click', function () {
+            console.log('agregar celular');
+            
+            const numero = nuevoCelular.value.trim();
+
+            // Validar número
+            if (numero === '' || numero.length < 9 || isNaN(numero)) {
+                alert('Ingrese un número de celular válido de 9 dígitos.');
+                return;
+            }
+
+            // Crear elementos HTML dinámicamente
+            const divInput = document.createElement('div');
+            divInput.classList.add('col-md-3', 'celular-item');
+            divInput.innerHTML = `<input type="text" name="celular_cliente[]" maxlength="9" class="form-control" value="${numero}" readonly>`;
+
+            const divBtn = document.createElement('div');
+            divBtn.classList.add('col-md-1', 'celular-item');
+            divBtn.innerHTML = `<button type="button" class="btn btn-danger btn-remove-celular-cliente">x</button>`;
+
+            listaCelulares.appendChild(divInput);
+            listaCelulares.appendChild(divBtn);
+
+            // Limpiar input
+            nuevoCelular.value = '';
+        });
+
+        // Eliminar celular
+        listaCelulares.addEventListener('click', function (e) {
+            if (e.target.classList.contains('btn-remove-celular-cliente')) {
+                const btn = e.target;
+                const item = btn.closest('.celular-item');
+                
+                // Eliminar el botón y el input asociados
+                const prevInput = item.previousElementSibling;
+                if (prevInput && prevInput.classList.contains('celular-item')) {
+                    prevInput.remove();
+                }
+                item.remove();
+            }
+        });
+console.log(listaCelulares);
     });
 </script>

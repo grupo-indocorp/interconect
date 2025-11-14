@@ -23,7 +23,6 @@ class ClienteRequest extends FormRequest
     {
         $rules = [
             'tipo_documento' => 'required|in:dni,ruc',
-            'ciudad' => 'required|bail',
             'departamento_codigo' => 'required',
             'provincia_codigo' => 'required',
             'distrito_codigo' => 'required',
@@ -71,7 +70,6 @@ class ClienteRequest extends FormRequest
             'apellido_paterno_cliente.required' => 'El "Apellido Paterno" es obligatorio.',
             'apellido_materno_cliente.required' => 'El "Apellido Materno" es obligatorio.',
 
-            'ciudad.required' => 'La "Ciudad" es obligatorio.',
             'departamento_codigo.required' => 'El "Departamento" es obligatorio.',
             'provincia_codigo.required' => 'La "Provincia" es obligatoria.',
             'distrito_codigo.required' => 'El "Distrito" es obligatorio.',

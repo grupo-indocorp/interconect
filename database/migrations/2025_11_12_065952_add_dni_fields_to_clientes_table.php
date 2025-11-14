@@ -26,7 +26,13 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('clientes', function (Blueprint $table) {
-            $table->dropColumn(['dni', 'nombre', 'apellido_paterno', 'apellido_materno', 'tipo_documento']);
+            $table->dropColumn([
+                'dni_cliente',
+                'nombre_cliente',
+                'apellido_paterno_cliente',
+                'apellido_materno_cliente',
+                'tipo_documento'
+            ]);
         });
     }
 };
