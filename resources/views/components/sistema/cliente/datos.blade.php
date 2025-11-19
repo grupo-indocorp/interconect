@@ -19,39 +19,8 @@
     </div>
 
     <div class="row g-3" id="form-datos-cliente">
-        <div class="col-md-3">
-            <select id="tipo_documento" name="tipo_documento" class="form-select" onchange="mostrarCampos()" disabled>
-                <option value="">-- Tipo de documento --</option>
-                <option value="dni" {{ old('tipo_documento', $cliente->tipo_documento ?? '') == 'dni' ? 'selected' : '' }}>DNI</option>
-                <option value="ruc" {{ old('tipo_documento', $cliente->tipo_documento ?? '') == 'ruc' ? 'selected' : '' }}>RUC</option>
-            </select>
-        </div>
-        {{-- RUC y Razón Social --}}
-        <div class="col-12 row g-3" id="campos-ruc" style="display: none;">
-            <div class="col-md-4">
-                <input type="text"
-                    id="ruc"
-                    name="ruc"
-                    maxlength="11"
-                    class="form-control"
-                    placeholder="RUC *"
-                    value="{{ $cliente->ruc ?? '' }}"
-                    onchange="validarRuc(this)"
-                    disabled>
-            </div>
-            <div class="col-md-8">
-                <input type="text"
-                    id="razon_social"
-                    name="razon_social"
-                    class="form-control"
-                    placeholder="Razón Social *"
-                    value="{{ $cliente->razon_social ?? '' }}"
-                    disabled>
-            </div>
-        </div>
-        {{-- DNI --}}
-        <div class="col-12 row g-3" id="campos-dni" style="display: none;">
-            <div class="col-md-3">
+        <div class="col-12 row g-3" id="campos-dni">
+            <div class="col-md-6">
                 <input type="text"
                     id="dni_cliente"
                     name="dni_cliente"
@@ -61,7 +30,7 @@
                     value="{{ $cliente->dni_cliente ?? '' }}"
                     disabled>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <input type="text"
                     id="nombre_cliente"
                     name="nombre_cliente"
@@ -70,7 +39,7 @@
                     value="{{ $cliente->nombre_cliente ?? '' }}"
                     disabled>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <input type="text"
                     id="apellido_paterno_cliente"
                     name="apellido_paterno_cliente"
@@ -79,7 +48,7 @@
                     value="{{ $cliente->apellido_paterno_cliente ?? '' }}"
                     disabled>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <input type="text"
                     id="apellido_materno_cliente"
                     name="apellido_materno_cliente"
@@ -88,45 +57,53 @@
                     value="{{ $cliente->apellido_materno_cliente ?? '' }}"
                     disabled>
             </div>
+            <div class="col-md-6">
+                <input type="text"
+                    id="ruc"
+                    name="ruc"
+                    maxlength="11"
+                    class="form-control"
+                    placeholder="RUC"
+                    value="{{ $cliente->ruc ?? '' }}"
+                    disabled>
+            </div>
+            <div class="col-md-6">
+                <input type="text"
+                    id="correo_cliente"
+                    name="correo_cliente"
+                    class="form-control"
+                    placeholder="Correo Electrónico"
+                    value="{{ $cliente->correo_cliente ?? '' }}"
+                    disabled>
+            </div>
         </div>
 
         <div x-data="telefonoManager({{ $cliente->celular_cliente ?? '[]' }})">
             <div class="col-12 row g-3">
-                <div class="col-md-8">
-                    <input type="text"
-                        id="correo_cliente"
-                        name="correo_cliente"
-                        class="form-control"
-                        placeholder="Correo Electrónico *"
-                        value="{{ $cliente->correo_cliente ?? '' }}"
-                        disabled>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <input type="text"
                         maxlength="9"
                         x-model="nuevo"
                         class="form-control"
-                        placeholder="Celular *">
+                        placeholder="Celular">
                 </div>
                 <div class="col-md-1">
                     <button type="button" class="btn btn-warning" @click="agregar">+</button>
                 </div>
             </div>
-            <div class="col-12 row g-3 mt-3">
-                <template x-for="(cel, index) in celulares" :key="index">
-                    <div class="col-12 row g-2 celular-item">
-                        <div class="col-md-3">
-                            <input type="text"
-                                class="form-control"
-                                x-model="celulares[index]"
-                                readonly>
-                        </div>
-                        <div class="col-md-1">
-                            <button type="button" class="btn btn-danger" @click="eliminar(index)">x</button>
-                        </div>
+            <template x-for="(cel, index) in celulares" :key="index">
+                <div class="col-12 row g-3 celular-item">
+                    <div class="col-md-6">
+                        <input type="text"
+                            class="form-control"
+                            x-model="celulares[index]"
+                            readonly>
                     </div>
-                </template>
-            </div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-danger" @click="eliminar(index)">x</button>
+                    </div>
+                </div>
+            </template>
             <input type="hidden" id="celular_cliente" name="celular_cliente" :value="JSON.stringify(celulares)">
         </div>
 
@@ -150,7 +127,6 @@
 
     function obtenerValoresCliente() {
         return {
-            tipo_documento: $('#tipo_documento').val(),
             ruc: $('#ruc').val(),
             razon_social: $('#razon_social').val(),
             dni_cliente: $('#dni_cliente').val(),
@@ -163,8 +139,6 @@
     }
 
     function establecerValoresCliente(data) {
-        $('#tipo_documento').val(data.tipo_documento).prop('disabled', true);
-        mostrarCampos();
 
         $('#ruc').val(data.ruc);
         $('#razon_social').val(data.razon_social);
@@ -179,7 +153,6 @@
     function editarCliente() {
         datosClienteOriginales = obtenerValoresCliente();
         $('#form-datos-cliente :input').prop('disabled', false);
-        $('#tipo_documento').prop('disabled', true);
         window.dispatchEvent(new Event('enable-ubigeo'));
         $('#btn-editar-cliente').addClass('d-none');
         $('#btn-guardar-cliente, #btn-cancelar-cliente').removeClass('d-none');
@@ -196,34 +169,14 @@
     function guardarCliente() {
         const data = obtenerValoresCliente();
         const cliente_id = $('#cliente_id').val();
-        const tipo = data.tipo_documento;
 
-        // Validación
-        if (!tipo) {
-            alert('Por favor, seleccione el tipo de documento (DNI o RUC).');
+        if (
+            !data.dni_cliente ||
+            !data.nombre_cliente ||
+            !data.apellido_paterno_cliente
+        ) {
+            alert('Por favor, complete todos los campos obligatorios para DNI.');
             return;
-        }
-
-        if (tipo === 'ruc') {
-            if (
-                !data.ruc ||
-                !data.razon_social
-            ) {
-                alert('Por favor, complete todos los campos obligatorios para RUC.');
-                return;
-            }
-        }
-
-        if (tipo === 'dni') {
-            if (
-                !data.dni_cliente ||
-                !data.nombre_cliente ||
-                !data.apellido_paterno_cliente ||
-                !data.apellido_materno_cliente
-            ) {
-                alert('Por favor, complete todos los campos obligatorios para DNI.');
-                return;
-            }
         }
 
         $.ajaxSetup({
@@ -247,29 +200,6 @@
             },
             error: function () {
                 alert('Ocurrió un error al guardar los datos.');
-            }
-        });
-    }
-
-    function validarRuc(element) {
-        const ruc = element.value;
-        if (ruc.length !== 11) {
-            alert('El RUC debe tener exactamente 11 dígitos.');
-            return;
-        }
-
-        $.ajax({
-            url: '{{ url("cliente-gestion/0") }}',
-            method: "GET",
-            data: {
-                view: 'show-validar-ruc',
-                ruc: ruc
-            },
-            success: function (result) {
-                // puedes mostrar info de validez si deseas
-            },
-            error: function (response) {
-                alert('Error al validar RUC.');
             }
         });
     }
@@ -320,29 +250,6 @@
             }
         };
     }
-
-    function mostrarCampos() {
-        const tipo = document.getElementById('tipo_documento').value;
-        const camposRuc = document.getElementById('campos-ruc');
-        const camposDni = document.getElementById('campos-dni');
-
-        if (tipo === 'ruc') {
-            camposRuc.style.display = 'flex';
-            camposDni.style.display = 'none';
-        } else if (tipo === 'dni') {
-            camposRuc.style.display = 'none';
-            camposDni.style.display = 'flex';
-        } else {
-            camposRuc.style.display = 'none';
-            camposDni.style.display = 'none';
-        }
-    }
-    $(document).ready(function () {
-        if (!$('#tipo_documento').val()) {
-            $('#tipo_documento').prop('disabled', false);
-        }
-        mostrarCampos();
-    });
 
     function telefonoManager(celularesIniciales) {
         return {

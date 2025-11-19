@@ -311,7 +311,7 @@ class ClienteService
         $cliente->apellido_materno_cliente = request('apellido_materno_cliente');
         $cliente->correo_cliente = request('correo_cliente');
         $cliente->celular_cliente = request('celular_cliente');
-        $cliente->tipo_documento = request('tipo_documento');
+        $cliente->tipo_documento = 'dni';
         $cliente->ciudad = request('ciudad') ?? '';
         $cliente->fecha_gestion = now();
         $cliente->fecha_nuevo = now();

@@ -78,7 +78,7 @@
                 value="{{ $movistar->score ?? '' }}">
         </div>
         <div class="col-md-4 mb-3">
-            <label for="estadodito_id">Tipo</label>
+            <label for="estadodito_id">Modo de Pago</label>
             <select class="form-control" id="estadodito_id">
                 <option value="">Seleccione...</option>
                 @foreach ($estadoditos as $value)

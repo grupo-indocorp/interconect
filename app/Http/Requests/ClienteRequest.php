@@ -22,22 +22,12 @@ class ClienteRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'tipo_documento' => 'required|in:dni,ruc',
-            'comentario' => 'required|bail',
+            'dni_cliente' => 'required|numeric|digits:8|unique:clientes,dni_cliente',
+            'nombre_cliente' => 'required|string',
+            'apellido_paterno_cliente' => 'required|string',
             'etapa_id' => 'required|bail',
-            'estadodito_id' => 'required|bail',
+            'comentario' => 'required|bail',
         ];
-
-        if ($this->input('tipo_documento') === 'ruc') {
-            $rules['ruc'] = 'required|numeric|digits:11|starts_with:10|unique:clientes,ruc';
-            $rules['razon_social'] = 'required|string';
-        }
-
-        if ($this->input('tipo_documento') === 'dni') {
-            $rules['dni_cliente'] = 'required|numeric|digits:8|unique:clientes,dni_cliente';
-            $rules['nombre_cliente'] = 'required|string';
-            $rules['apellido_paterno_cliente'] = 'required|string';
-        }
         return $rules;
     }
 
@@ -49,27 +39,15 @@ class ClienteRequest extends FormRequest
     public function messages()
     {
         return [
-            'tipo_documento.required' => 'Debe seleccionar el tipo de documento.',
-            'tipo_documento.in' => 'El tipo de documento debe ser DNI o RUC.',
-
-            'ruc.required' => 'El "Ruc" es obligatorio.',
-            'ruc.numeric' => 'El "Ruc" debe ser numérico.',
-            'ruc.digits' => 'El "Ruc" debe tener exactamente 11 dígitos.',
-            'ruc.starts_with' => 'El "Ruc" debe iniciar con 10.',
-            'ruc.unique' => 'El "Ruc" ya se encuentra registrado.',
-            'razon_social.required' => 'La "Razón Social" es obligatorio.',
-
             'dni_cliente.required' => 'El "DNI" es obligatorio.',
             'dni_cliente.numeric' => 'El "DNI" debe ser numérico.',
             'dni_cliente.digits' => 'El "DNI" debe tener exactamente 8 dígitos.',
             'dni_cliente.unique' => 'El "DNI" ya se encuentra registrado.',
             'nombre_cliente.required' => 'El "Nombre" es obligatorio.',
             'apellido_paterno_cliente.required' => 'El "Apellido Paterno" es obligatorio.',
-            'apellido_materno_cliente.required' => 'El "Apellido Materno" es obligatorio.',
 
-            'comentario.required' => 'El "Comentario" es obligatorio.',
             'etapa_id.required' => 'La "Etapa" es obligatorio.',
-            'estadodito_id.required' => 'El "Estado Dito" es obligatorio.',
+            'comentario.required' => 'El "Comentario" es obligatorio.',
         ];
     }
 }
